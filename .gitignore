@@ -3,7 +3,6 @@
 *.filters
 lab02/lab02/pch.cpp
 lab02/lab02/pch.h
-*.txt
 *.user
 *.m
 *.pdb
