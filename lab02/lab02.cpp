@@ -14,6 +14,9 @@ float A=1;
 float B = 2;
 float C = 3;
 
+//10hz 1s/10= 0.1
+
+
 void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 {
 	for (float i = t_start; i <= t_end; i = i + delta_t)
@@ -24,7 +27,7 @@ void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 
 void signal_tone(vector<float> OX, vector<float> &OY)
 {
-
+	cout << "test";
 	float y;
 	int i = 0;
 
@@ -95,7 +98,7 @@ int main()
 	//-----zad1-----
 	vector<float> x1;
 	vector<float> y1;
-	create_OX(0.0, A, 0.1, x1);// nie za male fs? 0.1 0.001
+	create_OX(0.0, A, 0.02, x1);// nie za male fs? 0.1 0.001
 	signal_tone(x1, y1);
 	data_file(x1, y1, "function_s.txt");
 	data_file2(x1, "xs.txt");
@@ -112,7 +115,7 @@ int main()
 	vector<float> y2;
 	vector<float> x2;
 
-	create_OX(0.0, A, 0.05, x2);// fs2 =0.5 fs1
+	create_OX(0.0, A, 0.01, x2);// fs2 =0.5 fs1
 	signal_tone(x2, y2);
 	quantisation(y2, Q2, 8);
 	data_file(x2, Q2, "quantisation_s_v2.txt");
