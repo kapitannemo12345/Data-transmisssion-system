@@ -10,9 +10,9 @@ using namespace std;
 
 const float  PI_F = 3.14159265358979f;
 
-float A=1;
-float B = 2;
-float C = 3;
+float A=5;
+float B = 5;
+float C = 5;
 
 //10hz 1s/10= 0.1
 
@@ -33,7 +33,7 @@ void signal_tone(vector<float> OX, vector<float> &OY)
 
 	for (float x : OX)
 	{
-		y =A*sin(2 * PI_F * B * OX[i] + C);
+		y =A*sin(2 * PI_F * B * OX[i] + C*PI_F);
 		OY.push_back(y);
 		i++;
 	}
@@ -49,7 +49,6 @@ void data_file(vector<float> OX, vector<float> OY, string name)
 	//cout << "size ox:" << OX.size();
 	//cout << "size oy:" << OX.size()<<endl;
 	
-
 	for (float x : OX)
 	{
 		myfile << OX[i] << " " << OY[i] << endl;
