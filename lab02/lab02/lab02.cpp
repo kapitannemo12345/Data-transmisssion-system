@@ -10,7 +10,7 @@ using namespace std;
 
 const float  PI_F = 3.14159265358979f;
 
-float A=5;
+float A=1;
 float B = 5;
 float C = 5;
 
@@ -46,7 +46,7 @@ void data_file(vector<float> OX, vector<float> OY, string name)
 	myfile.open(name);
 	int i = 0;
 
-	//cout << "size ox:" << OX.size();
+	cout << "size ox:" << OX.size();
 	//cout << "size oy:" << OX.size()<<endl;
 	
 	for (float x : OX)
@@ -80,12 +80,15 @@ void data_file2(vector<float> OX, string name)
 void quantisation(vector<float> OY, vector<float> &Q,int q)
 {
 	int i = 0;
-	int y;
+	//int y;
+	float z;
 
 	for (float y : OY)
 	{
-		y = OY[i] / (2/ pow(2, q));// 2 ? w liczniku bo  2^16= 65 536 czyli wartosci  od 0 do 32 768 beda ujemne
-		Q.push_back(y);
+		z=floor(OY[i] *pow(2, q-1)+pow(2, q - 1)-0.5);// 2 ? w liczniku bo  2^16= 65 536 czyli wartosci  od 0 do 32 768 beda ujemne
+		
+
+		Q.push_back(z);
 		i++;
 	}
 
@@ -97,7 +100,7 @@ int main()
 	//-----zad1-----
 	vector<float> x1;
 	vector<float> y1;
-	create_OX(0.0, A, 0.02, x1);// nie za male fs? 0.1 0.001
+	create_OX(0.0, 5, 0.001, x1);// nie za male fs? 0.1 0.001
 	signal_tone(x1, y1);
 	data_file(x1, y1, "function_s.txt");
 	data_file2(x1, "xs.txt");
@@ -108,13 +111,15 @@ int main()
 	quantisation(y1, Q1,16);
 	data_file(x1, Q1, "quantisation_s.txt");
 	data_file2(Q1, "Qs_1.txt");
+	data_file2(x1, "xs.txt");
+	data_file2(Q1, "ys.txt");
 	
 	//-----zad3-----
 	vector<float> Q2;
 	vector<float> y2;
 	vector<float> x2;
 
-	create_OX(0.0, A, 0.01, x2);// fs2 =0.5 fs1
+	create_OX(0.0, 5, 0.002, x2);// fs2 =0.5 fs1
 	signal_tone(x2, y2);
 	quantisation(y2, Q2, 8);
 	data_file(x2, Q2, "quantisation_s_v2.txt");
