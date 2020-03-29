@@ -10,11 +10,11 @@ using namespace std;
 
 const float  PI_F = 3.14159265358979f;
 
-float A = 5;
-float B = 5;
-float C = 5;
+float A = 1;
+float B = 9;
+float C = 4;
 
-float fs = 1;//czestotliwosc
+float fs = 10;//czestotliwosc 
 
 void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 {
@@ -43,8 +43,8 @@ void DFT(vector<float> OY, DFT_Coeff &dft)
 	{
 		for (int n = 0; n < N; n++)
 		{
-			pr+= OY[i] * cos(i*n);//k=i?
-			pi+= OY[i] * sin(i*n);			
+			pr+= OY[n] * cos(-2*(PI_F* i * n));//k=i?
+			pi+= OY[n] * sin(-2*(PI_F* i * n));			
 		}
 		pr = pr / N;
 		pi = pi / N;
@@ -59,13 +59,15 @@ void DFT(vector<float> OY, DFT_Coeff &dft)
 
 }
 
-void amplitude_spectrum( DFT_Coeff dft, vector<float> &AS)//widmo amplitudowe
+void amplitude_spectrum( DFT_Coeff dft, vector<float> &AS, vector<float> OY)//widmo amplitudowe
 {
+	int N = OY.size();
 	float y;
 	int i = 0;
 	for (float x : dft.real)
 	{
 		y = sqrt( pow( dft.real[i] , 2 ) + pow(dft.img[i], 2));
+		y = y * 2 / N;//skalowanie ?
 		AS.push_back(y);
 		i++;
 	}
@@ -77,7 +79,7 @@ void frequency_scale(DFT_Coeff dft, vector<float> &FS)//skala częstotliwości
 	int i = 0;
 	for (float x : dft.real)
 	{
-		y = i*(fs/ dft.real.size());
+		y = i*( fs / dft.real.size() );// zmienna globalnaa=dft.real.size() d o poprawy
 		FS.push_back(y);
 		i++;
 	}
@@ -127,15 +129,15 @@ int main()
 	vector<float> AS1;
 	vector<float> FS1;
 
-	create_OX(0.0, 555, 0.1, x1);// nie za male fs? 0.1 0.001
+	create_OX(0.0, 194, 0.1, x1);// nie za male fs? 0.1 0.001
 	signal_tone(x1, y1);
 	data_file(x1, y1, "function_s.txt");
 	DFT(y1,DFT1);
-	amplitude_spectrum(DFT1, AS1);
+	amplitude_spectrum(DFT1, AS1,y1);
 	frequency_scale(DFT1, FS1);
 
 
-	data_file(x1, AS1, "aspec1.txt");
+	data_file(FS1, AS1, "aspec1.txt");
     
 
 	DFT_Coeff dft_value;
