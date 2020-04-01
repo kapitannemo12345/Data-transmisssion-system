@@ -10,11 +10,12 @@ using namespace std;
 
 const float  PI_F = 3.14159265358979f;
 
-float A = 1;
-float B = 1;
+float A = 5;
+float B = 5;
 float C = 5;
 
-float fs = 10;//czestotliwosc 
+float fs = 1000;//czestotliwosc 
+
 
 void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 {
@@ -43,7 +44,7 @@ void DFT(vector<float> OY, DFT_Coeff &dft)
 	{
 		for (int n = 0; n < N; n++)
 		{
-			pr+= OY[n] * cos(-2*(PI_F* i * n)/N);//k=i?
+			pr+= OY[n] * cos(-2*(PI_F* i * n)/N);//k=i? -2=-k
 			pi+= OY[n] * sin(-2*(PI_F* i * n)/N);			
 		}
 		//pr = pr / N;
@@ -74,8 +75,8 @@ void amplitude_spectrum( DFT_Coeff dft, vector<float> &AS, vector<float> OY)//wi
 }
 
 void amplitude_spectrum_prime(vector<float> &AS, vector<float> &AS_P, vector<float> OY,float max)//widmo amplitudowe
-{
-	
+{	
+		
 	for (int i=0;i<AS.size();i++)
 	{
 		if (abs(AS[i]) > max)
@@ -87,23 +88,12 @@ void amplitude_spectrum_prime(vector<float> &AS, vector<float> &AS_P, vector<flo
 
 	float threshold=max/10000;
 
-	for (int i = 0; i < AS.size(); i++)
-	{
-		if (AS[i]< threshold)
-		{
-			AS[i] = 0.0;
-		}
-
-	}
-
 	int N = OY.size();
 	float y;
 	int i = 0;
 	for (float x : AS)
 	{
-		
-		y = 10 * log10(AS[i]);
-		
+			
 		if (AS[i] == 0)//omijanie widm dla których wartosc wynosi zero
 		{
 			AS_P.push_back(0);
@@ -111,11 +101,22 @@ void amplitude_spectrum_prime(vector<float> &AS, vector<float> &AS_P, vector<flo
 		}
 		else
 		{
+			y = 10 * log10(AS[i]);
 			AS_P.push_back(y);
 		}
 
+		//AS_P.push_back(y);
 		i++;
 	}
+	/*
+	for (int i = 0; i < AS.size(); i++)
+	{
+		if (AS_P[i] < threshold)
+		{
+			AS_P[i] = 0.0;
+		}
+	}
+	*/
 }
 
 void frequency_scale(DFT_Coeff dft, vector<float> &FS)//skala częstotliwości
@@ -124,7 +125,7 @@ void frequency_scale(DFT_Coeff dft, vector<float> &FS)//skala częstotliwości
 	int i = 0;
 	for (float x : dft.real)
 	{
-		y = i*( fs / dft.real.size() );// zmienna globalnaa=dft.real.size() d o poprawy
+		y = i*( fs / dft.real.size() );// zmienna globalnaa=dft.real.size() d o poprawy fs =probkowanie
 		FS.push_back(y);
 		i++;
 	}
@@ -138,7 +139,7 @@ void signal_tone(vector<float> OX, vector<float> &OY)
 
 	for (float x : OX)
 	{
-		y = A * sin(2 * PI_F * B * OX[i] + C * PI_F);
+		y = 1 * sin(2 * PI_F * B * OX[i] + C * PI_F);
 		OY.push_back(y);
 		i++;
 	}
@@ -161,7 +162,6 @@ void data_file(vector<float> OX, vector<float> OY, string name)
 	}
 
 	myfile.close();
-
 }
 
 void data_file2(vector<float> OX, string name)
@@ -174,7 +174,7 @@ void data_file2(vector<float> OX, string name)
 
 	for (float x : OX)
 	{
-		myfile << OX[i] << ",";
+		myfile << OX[i] << endl;;
 		i++;
 	}
 
@@ -195,18 +195,24 @@ int main()
 	vector<float> FS1;
 	vector<float> AS_P;
 
-	create_OX(0.0, 555, 0.1, x1);// nie za male fs? 0.1 0.001
+	create_OX(0.0, 0.555, 0.001, x1);// nie za male fs? 0.1 0.001
 	signal_tone(x1, y1);
 	data_file(x1, y1, "function_s.txt");
-	//data_file2(x1, "x.txt");
-	//data_file2(y1, "y.txt");
+	data_file2(x1, "x.txt");
+	data_file2(y1, "y.txt");
 	DFT(y1,DFT1);
 	amplitude_spectrum(DFT1, AS1,y1);
+	
 	amplitude_spectrum(DFT1, AS2, y1);
 	amplitude_spectrum_prime(AS2, AS_P,y1,0);
 	
 	frequency_scale(DFT1, FS1);
 	
+	data_file2(FS1, "x.txt");
+	data_file2(AS1, "y.txt");
+	data_file2(FS1, "xp.txt");
+	data_file2(AS_P, "yp.txt");
+
 	data_file(FS1, AS1, "aspec1.txt");
 	data_file(FS1, AS_P, "aspec2.txt");
     
