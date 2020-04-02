@@ -11,15 +11,19 @@ using namespace std;
 const float  PI_F = 3.14159265358979f;
 
 float A = 5;
-float B = 5;
-float C = 5;
+float B = 5.5;
+float C = 21;
 
-float fs = 1000;//czestotliwosc 
+float fs = 44;//czestotliwosc 
 
 
 void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 {
-	for (float i = t_start; i <= t_end; i = i + delta_t)
+
+
+
+
+	for (float i = t_start; i <=t_end; i = i + delta_t)
 	{
 		v.push_back(i);
 	}
@@ -68,7 +72,7 @@ void amplitude_spectrum( DFT_Coeff dft, vector<float> &AS, vector<float> OY)//wi
 	for (float x : dft.real)
 	{
 		y = sqrt( pow( dft.real[i] , 2 ) + pow(dft.img[i], 2));
-		y = y * 2 / N;//skalowanie ?
+		//y = y * 2 / N;//skalowanie ?
 		AS.push_back(y);
 		i++;
 	}
@@ -195,7 +199,9 @@ int main()
 	vector<float> FS1;
 	vector<float> AS_P;
 
-	create_OX(0.0, 0.555, 0.001, x1);// nie za male fs? 0.1 0.001
+
+	//cout << "wynik" << d;
+	create_OX(0.0, 1, 1 / fs, x1);// nie za male fs? 0.1 0.001
 	signal_tone(x1, y1);
 	data_file(x1, y1, "function_s.txt");
 	data_file2(x1, "x.txt");
