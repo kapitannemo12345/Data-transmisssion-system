@@ -11,22 +11,25 @@ using namespace std;
 const float  PI_F = 3.14159265358979f;
 
 float A = 5;
-float B = 5.5;
-float C = 21;
+float B = 5;//4
+float C = 5;
 
-float fs = 44;//czestotliwosc 
+float fs = 185;//czestotliwosc  a=b=c=5 fs=6 end=111
 
 
 void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 {
+	//cout << "start"<<t_start;
+	//cout << "end" << t_start;
 
-
-
-
-	for (float i = t_start; i <=t_end; i = i + delta_t)
+	for (int  i = t_start; i <t_end; i++)
 	{
-		v.push_back(i);
+		v.push_back((1/fs)*i);
 	}
+	//v.pop_back();
+	
+
+	cout << "test  ox:" << v.size()<<"\n";
 }
 
 class DFT_Coeff {
@@ -48,7 +51,7 @@ void DFT(vector<float> OY, DFT_Coeff &dft)
 	{
 		for (int n = 0; n < N; n++)
 		{
-			pr+= OY[n] * cos(-2*(PI_F* i * n)/N);//k=i? -2=-k
+			pr+= OY[n] * cos(2*(PI_F* i * n)/N);//k=i? -2=-k
 			pi+= OY[n] * sin(-2*(PI_F* i * n)/N);			
 		}
 		//pr = pr / N;
@@ -81,33 +84,17 @@ void amplitude_spectrum( DFT_Coeff dft, vector<float> &AS, vector<float> OY)//wi
 void amplitude_spectrum_prime(vector<float> &AS, vector<float> &AS_P, vector<float> OY,float max)//widmo amplitudowe
 {	
 		
-	for (int i=0;i<AS.size();i++)
-	{
-		if (abs(AS[i]) > max)
-		{
-			max = abs(AS[i]);
-		}
-
-	}
-
-	float threshold=max/10000;
-
+	
 	int N = OY.size();
 	float y;
 	int i = 0;
 	for (float x : AS)
 	{
 			
-		if (AS[i] == 0)//omijanie widm dla których wartosc wynosi zero
-		{
-			AS_P.push_back(0);
-
-		}
-		else
-		{
+		
 			y = 10 * log10(AS[i]);
 			AS_P.push_back(y);
-		}
+		
 
 		//AS_P.push_back(y);
 		i++;
@@ -201,7 +188,9 @@ int main()
 
 
 	//cout << "wynik" << d;
-	create_OX(0.0, 1, 1 / fs, x1);// nie za male fs? 0.1 0.001
+	create_OX(0, 555, 1/fs, x1);// nie za male fs? 0.1 0.001 //109 czestotliwosc probwkoania dzielnik liczby probek
+	
+	
 	signal_tone(x1, y1);
 	data_file(x1, y1, "function_s.txt");
 	data_file2(x1, "x.txt");
