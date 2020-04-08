@@ -67,7 +67,8 @@ void DFT(vector<float> OY, DFT_Coeff &dft)
 
 }
 
-void I_DFT(DFT_Coeff dft , DFT_Coeff &i_dft)
+
+void I_DFT(DFT_Coeff dft, vector<float> &OY)
 {
 	int N = dft.real.size();
 	int i = 0;
@@ -79,22 +80,21 @@ void I_DFT(DFT_Coeff dft , DFT_Coeff &i_dft)
 	{
 		for (int n = 0; n < N; n++)
 		{
-			pr += dft.real[i] * cos(2 * (PI_F* i * n) / N);//k=i? -2=-k
-			pi += dft.img[i] * sin(2 * (PI_F* i * n) / N);
+			pr += ((dft.real[n] * cos(2 * (PI_F* i * n) / N) - dft.img[n] * sin(2 * (PI_F* i * n) / N))) / N;//k=i? -2=-k			;
+
 		}
 
-		pr = pr / N;
-		pi = pi / N;
+		//OY[i] = OY[i] / N;
 
 
-		//pr = pr / N;
+
 		//pi = pi / N;
 
-		i_dft.real.push_back(pr);
-		i_dft.img.push_back(pi);
+		OY.push_back(pr);
+
 
 		pr = 0;
-		pi = 0;
+
 		i++;
 	}
 
@@ -317,13 +317,20 @@ int main()
 	//----zad2-----
 
 	vector<float> x1;
-	vector<float> y1;
-	DFT_Coeff DFT1;
-	vector<float> AS1;
-	
+	vector<float> y1;	
+	DFT_Coeff DFT1;	
+	vector<float> AS1;	
 	vector<float> FS1;
 	vector<float> AS_P;
+	
+	vector<float> yi;
+	DFT_Coeff I_DFT1;
+	vector<float> AS_I;
+	vector<float> FS_i;
+	vector<float> AS_P_I;
 
+
+	
 	//-------zad2-------
 	create_OX(0, 555, 1/fs, x1);//	
 	signal_tone(x1, y1);
@@ -335,6 +342,15 @@ int main()
 	amplitude_spectrum_prime(AS1, AS_P,y1);	
 	frequency_scale(DFT1, FS1,fs);
 	
+	I_DFT(DFT1, yi);
+	//amplitude_spectrum(I_DFT1, AS_I, y1);
+	//amplitude_spectrum_prime(AS_I, AS_P_I, y1);
+	//frequency_scale(I_DFT1, FS_i, fs);
+
+	data_file2(x1, "xii.txt");
+	data_file2(yi, "yii.txt");
+
+
 	data_file2(FS1, "x.txt");
 	data_file2(AS1, "y.txt");
 	data_file2(FS1, "xp.txt");
