@@ -1,0 +1,13 @@
+/*
+	zad3 
+
+		1A Modulacja fazy: Fmin=998 Fmax=1002 W=4
+		1A Modulacja amplitudy: Fmin=998 Fmax=1002 W=4
+
+		1B Modulacja fazy: Fmin=994 Fmax=1007 W=13
+		1B Modulacja amplitudy: Fmin=992 Fmax=1008 W=16
+
+		1C Modulacja fazy: Fmin=935 Fmax=1085 W=150
+		1C Modulacja amplitudy: Fmin=997 Fmax=1003 W=6
+
+*/
