@@ -16,27 +16,30 @@ float B = 5;//4
 float C = 5;
 
 float Tb = 1;
-float N = 1;
-float fs = 1000;//TB*10 =fs !!!
-
-
+float N = 2;
+float fs = 100;//TB*10 =fs !!!
 
 typedef unsigned char BYTE;
 
-string Binary_stream(int text)
+string Binary_stream(string text)
 {
-	char buffer[33];
-	_itoa_s(text, buffer, 2);
-	string s(buffer);
-	return s;
+	
+	string output;
+	for (auto i :text) {
+		char bytes[8];
+		_itoa_s(i, bytes, 2);
+		output = output + "0" + string(bytes);//dodawanie 0 na koniec
+	}
+	cout << output << endl;
+	return output;
 }
 
-void information_signal(vector<float> &OY,string s)
+void information_signal(vector<float> &OY,string s,int ograniczenie)
 {
 	float y;
 	int i = 0;
-	float czas_trwania = Tb * fs;
-	for (string::size_type i = 0; i < 10; i++) {//10 bo do 10 bitow ograniczyc
+	float czas_trwania = Tb * fs;//czas trwanie jednego bity to fs *tb
+	for (string::size_type i = 0; i < ograniczenie; i++) {//10 bo do 10 bitow ograniczyc
 		
 		if (s[i]=='1')
 		{
@@ -57,11 +60,8 @@ void information_signal(vector<float> &OY,string s)
 				OY.push_back(y);
 				
 			}
-		}
-
-		
+		}		
 	}
-
 }
 
 void amplitude_keying(vector<float> OX, vector<float> IF, vector<float> &OY)
@@ -77,7 +77,7 @@ void amplitude_keying(vector<float> OX, vector<float> IF, vector<float> &OY)
 	for (float x : OX)
 	{
 
-		if (IF[i] == 1)
+		if (IF[i] == 0)
 		{
 			y = A1 * sin(2 * PI_F * f * OX[i] + 1 * PI_F);
 			OY.push_back(y);
@@ -90,13 +90,69 @@ void amplitude_keying(vector<float> OX, vector<float> IF, vector<float> &OY)
 			OY.push_back(y);
 			i++;
 
-		}
-		
+		}		
 	}
-
 
 }
 
+void frequency_keying(vector<float> OX, vector<float> IF, vector<float> &OY)
+{
+	float y;
+	int i = 0;
+	float f0 = N + 1 / Tb;
+	float f1 = N + 2 / Tb;
+	float A1 = 1;
+	
+	for (float x : OX)
+	{
+
+		if (IF[i] == 0)
+		{
+			y = A1 * sin(2 * PI_F * f0 * OX[i] + 1 * PI_F);
+			OY.push_back(y);
+			i++;
+
+		}
+		else
+		{
+			y = A1 * sin(2 * PI_F * f1 * OX[i] + 1 * PI_F);
+			OY.push_back(y);
+			i++;
+
+		}
+	}
+}
+
+void phase_keying(vector<float> OX, vector<float> IF, vector<float> &OY)
+{
+
+	float y;
+	int i = 0;
+	float f = N / Tb;
+	float A1 = 1;
+	float fi0 = 0;
+	float fi1 = PI_F;
+
+	for (float x : OX)
+	{
+
+		if (IF[i] == 0)
+		{
+			y = A1 * sin(2 * PI_F * f * OX[i] + fi0);
+			OY.push_back(y);
+			i++;
+
+		}
+		else
+		{
+			y = A1 * sin(2 * PI_F * f * OX[i] + fi1);
+			OY.push_back(y);
+			i++;
+
+		}
+	}
+
+}
 
 void signal_tone(vector<float> OX, vector<float> &OY,float A,float f,float FI)
 {
@@ -262,15 +318,21 @@ int main()
 {
 	vector<float> x1;
 	vector<float> y1;
+	vector<float> y2;
+	vector<float> y3;
+
 	vector<float> IF1;
 
-	int i = 'ab';
+	string i = "ab";
 	string s;
+	s =  s;
 	s=Binary_stream(i);
 	cout << s << "\n";
 	
-	create_OX(0, 10000, 1 / fs, x1);
-	information_signal(IF1, s);
+	
+
+	create_OX(0, 1000, 1 / fs, x1);
+	information_signal(IF1, s,10);
 
 	cout << "size OX:" << x1.size()<<"\n";
 	cout << "size IF1:" << IF1.size()<<"\n";
@@ -281,26 +343,83 @@ int main()
 	amplitude_keying(x1, IF1, y1);
 	data_file2(y1, "y1.txt");
 
+	frequency_keying(x1, IF1, y2);
+	data_file2(y2, "y2.txt");
 
-	//int j = 'b';
-	//char buffer[33]; //the variable you will store i's new value (binary value) in
-	//char buffer2[33];
+	phase_keying(x1, IF1, y3);
+	data_file2(y3, "y3.txt");
+
+
+	vector<float> x1_p;
+	vector<float> y1_p;
+	vector<float> y2_p;
+	vector<float> y3_p;
+
+	vector<float> IF_p1;
+
+	create_OX(0, s.size()*fs, 1 / fs, x1_p);
+	information_signal(IF_p1, s, s.size());
+
+	cout << "rozmiar size" << s.size()*fs << "\n";
+
+	cout << "size OX_p:" << x1_p.size() << "\n";
+	cout << "size IF_p1:" << IF_p1.size() << "\n";
+
+	//data_file2(x1, "x.txt");
+	//data_file2(IF1, "IF2.txt");
+
+	amplitude_keying(x1_p, IF_p1, y1_p);
+	//data_file2(y1, "y1.txt");
+
+	frequency_keying(x1_p, IF_p1, y2_p);
+	//data_file2(y2, "y2.txt");
+
+	phase_keying(x1_p, IF_p1, y3_p);
+	//data_file2(y3, "y3.txt");
+
+
+
+	DFT_Coeff DFT1;
+	vector<float> AS1;
+	vector<float> FS1;
+	vector<float> AS_P;
+
 	
-	//_itoa_s(i, buffer, 2);
-	//_itoa_s(j, buffer2, 2);
+	DFT(y1_p, DFT1);
+	amplitude_spectrum(DFT1, AS1, y1_p);
+	amplitude_spectrum_prime(AS1, AS_P, y1_p);
+	frequency_scale(DFT1, FS1, fs);
+	data_file2(FS1, "xfs1.txt");
+	data_file2(AS_P, "ASy.txt");
 
-	//printf("binary: %s\n", buffer);
 
-	//string s(buffer);
-	//string r(buffer2);
 
-	//cout << s<<"\n";
-	//cout << r << "\n";
 
-	//string t ;
-	//t += s;
-	//t += r;
-	//cout << t << "\n";
+	DFT_Coeff DFT2;
+	vector<float> AS2;
+	vector<float> FS2;
+	vector<float> AS_P2;
+
+	DFT(y2_p, DFT2);
+	amplitude_spectrum(DFT2, AS2, y2_p);
+	amplitude_spectrum_prime(AS2, AS_P2, y2_p);
+	frequency_scale(DFT2, FS2, fs);
+	data_file2(FS2, "xfs2.txt");
+	data_file2(AS_P2, "ASy2.txt");
+
+
+	DFT_Coeff DFT3;
+	vector<float> AS3;
+	vector<float> FS3;
+	vector<float> AS_P3;
+
+	DFT(y3_p, DFT3);
+	amplitude_spectrum(DFT3, AS3, y3_p);
+	amplitude_spectrum_prime(AS3, AS_P3, y3_p);
+	frequency_scale(DFT3, FS3, fs);
+	data_file2(FS3, "xfs3.txt");
+	data_file2(AS_P3, "ASy3.txt");
+	
 	
 }
 
