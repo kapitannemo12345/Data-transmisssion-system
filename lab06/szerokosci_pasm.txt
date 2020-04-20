@@ -1,0 +1,10 @@
+/*
+	zad3
+
+		kluczowanie amplitudy : Fmin = 1,75 Fmax = 2,25 W = 0.5
+		
+		kluczowanie czestotliwosci : Fmin = 2,875 Fmax = 3,25 W = 0,375
+	
+		kluczowanie fazy : Fmin = 1.688 Fmax = 2.375 W = 0,687
+	
+	*/
