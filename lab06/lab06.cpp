@@ -66,7 +66,6 @@ void information_signal(vector<float> &OY,string s,int ograniczenie)
 
 void amplitude_keying(vector<float> OX, vector<float> IF, vector<float> &OY)
 {
-
 	
 	float y;
 	int i = 0;
@@ -247,10 +246,8 @@ void amplitude_spectrum_prime(vector<float> &AS, vector<float> &AS_P, vector<flo
 	for (float x : AS)
 	{
 
-
 		y = 10 * log10(AS[i]);
 		AS_P.push_back(y);
-
 
 		//AS_P.push_back(y);
 		i++;
@@ -316,6 +313,18 @@ void data_file2(vector<float> OX, string name)
 
 int main()
 {
+	/*
+	zad3
+
+		kluczowanie amplitudy : Fmin = 1,75 Fmax = 2,25 W = 0.5
+		
+		kluczowanie czestotliwosci : Fmin = 2,875 Fmax = 3,25 W = 0,375
+	
+		kluczowanie fazy : Fmin = 1.688 Fmax = 2.375 W = 0,687
+	
+	*/
+
+	//----zad3----
 	vector<float> x1;
 	vector<float> y1;
 	vector<float> y2;
@@ -331,8 +340,8 @@ int main()
 	
 	
 
-	create_OX(0, 1000, 1 / fs, x1);
-	information_signal(IF1, s,10);
+	create_OX(0, s.size()*fs, 1 / fs, x1);
+	information_signal(IF1, s, s.size());
 
 	cout << "size OX:" << x1.size()<<"\n";
 	cout << "size IF1:" << IF1.size()<<"\n";
@@ -349,7 +358,7 @@ int main()
 	phase_keying(x1, IF1, y3);
 	data_file2(y3, "y3.txt");
 
-
+	//----zad4----
 	vector<float> x1_p;
 	vector<float> y1_p;
 	vector<float> y2_p;
@@ -357,8 +366,8 @@ int main()
 
 	vector<float> IF_p1;
 
-	create_OX(0, s.size()*fs, 1 / fs, x1_p);
-	information_signal(IF_p1, s, s.size());
+	create_OX(0, 1000, 1 / fs, x1_p);
+	information_signal(IF_p1, s, 10);
 
 	cout << "rozmiar size" << s.size()*fs << "\n";
 
@@ -383,7 +392,6 @@ int main()
 	vector<float> AS1;
 	vector<float> FS1;
 	vector<float> AS_P;
-
 	
 	DFT(y1_p, DFT1);
 	amplitude_spectrum(DFT1, AS1, y1_p);
@@ -391,8 +399,6 @@ int main()
 	frequency_scale(DFT1, FS1, fs);
 	data_file2(FS1, "xfs1.txt");
 	data_file2(AS_P, "ASy.txt");
-
-
 
 
 	DFT_Coeff DFT2;
