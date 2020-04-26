@@ -1,10 +1,10 @@
 /*
 	zad3
 
-		kluczowanie amplitudy : Fmin = 1,6 Fmax = 2,1 W = 0.5
+		kluczowanie amplitudy : W = 1
 		
-		kluczowanie czestotliwosci : Fmin = 2,9 Fmax = 3,1 W = 0.2
+		kluczowanie czestotliwosci : W = 1.5
 	
-		kluczowanie fazy : Fmin = 1.4 Fmax = 2.6 W = 1.2
+		kluczowanie fazy : W = 1.2
 	
 	*/
