@@ -312,11 +312,11 @@ void SECDED(vector<int> &X, vector<int> &Y)
 		}
 
 		cout << "\n";
-		//cout << "macierz G:" << "\n";
+		cout << "macierz G:" << "\n";
 
 		const int GM[8][4] = { {1,1,0,1},{1,0,1,1},{1,0,0,0},{0,1,1,1},{0,1,0,0},{0,0,1,0},{0,0,0,1},{1,1,1,0} };
 		const int PM[4][8] = { {1,0,1,0,1,0,1,0},{0,1,1,0,0,1,1,0},{0,0,0,1,1,1,1,0},{1,1,1,1,1,1,1,1} };
-		/*
+		
 		for (int j = 0; j < 7; j++)
 		{
 			for (int i = 0; i < 4; i++)
@@ -326,7 +326,7 @@ void SECDED(vector<int> &X, vector<int> &Y)
 			}
 			cout << "\n";
 		}
-		*/
+		
 		int KD[8];
 		int sum = 0;
 
@@ -350,7 +350,7 @@ void SECDED(vector<int> &X, vector<int> &Y)
 		}
 		cout << "\n";
 
-		/*
+		
 		cout << "macierz H:" << "\n";
 		
 		for (int j = 0; j < 4; j++)
@@ -362,7 +362,7 @@ void SECDED(vector<int> &X, vector<int> &Y)
 			}
 			cout << "\n";
 		}
-		*/
+		
 
 		int S[4];
 		int KD_p[8];
@@ -410,11 +410,13 @@ void SECDED(vector<int> &X, vector<int> &Y)
 		int bit_error = 1 * S[0] + 2 * S[1] + 4 * S[2];
 		if ( bit_error != 0 )
 		{
-			partity_bit=KD[7];
+			//partity_bit=KD[7];
 			negate(KD_p, bit_error - 1);
-			KD_p[7] = (KD_p[0] + KD_p[1] + KD_p[3] + KD_p[4] + KD_p[5] + KD_p[6]) % 2;//ponowne wyznaczenie bitu parzystasci po poprawie
+			int index;
+			index=(KD_p[0] + KD_p[1] + KD_p[2] + KD_p[3] + KD_p[4] + KD_p[5] + KD_p[6]) % 2;//ponowne wyznaczenie bitu parzystasci po poprawie
 
-			if (KD_p[7] =! partity_bit)
+			//cout << "co jest kurwa" <<KD_p[7]<< KD_p[0] <<KD_p[1] << KD_p[2] << KD_p[3]<<  KD_p[4] << KD_p[5] << KD_p[6]<<"\n" ;
+			if (KD_p[7] != index)
 			{
 				reject = 1;
 			}
