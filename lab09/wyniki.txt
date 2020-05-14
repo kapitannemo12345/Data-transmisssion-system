@@ -61,6 +61,11 @@ dekodowane dane:
 dekodowane dane:
 0010
 -----------------SECDED-----------------
+KD[2] = 1; //test wykrywania błędu
+KD[4] = 0;//zmiana na stałe bitów 1 i 4 na te wartości
+
+
+
 SECDED
 kod wjesciowy:
 0110000101100010
