@@ -1,0 +1,130 @@
+bazowy strumien binarny: 0110000101100010
+
+
+
+kod wjesciowy:
+0110000101100010
+dane:
+0110
+wektor KD= d*G:
+1100110
+wektor S=KD*H:
+110
+wektor KD:
+1110110
+wektor KD_prime poprawiony:
+1100110
+
+dane:
+0001
+wektor KD= d*G:
+1101001
+wektor S=KD*H:
+110
+wektor KD:
+1111001
+wektor KD_prime poprawiony:
+1101001
+
+dane:
+0110
+wektor KD= d*G:
+1100110
+wektor S=KD*H:
+110
+wektor KD:
+1110110
+wektor KD_prime poprawiony:
+1100110
+
+dane:
+0010
+wektor KD= d*G:
+0101010
+wektor S=KD*H:
+110
+wektor KD:
+0111010
+wektor KD_prime poprawiony:
+0101010
+
+1100110110100111001100101010
+HAMMING
+kod wjesciowy do dekodowania:
+1100110110100111001100101010
+dekodowane dane:
+0110
+dekodowane dane:
+0001
+dekodowane dane:
+0110
+dekodowane dane:
+0010
+-----------------SECDED-----------------
+SECDED
+kod wjesciowy:
+0110000101100010
+dane:
+0110
+wektor KD= d*G:
+11001100
+wektor S=KD*H:
+011
+wektor KD:
+11100100
+wektor KD_prime poprawiony:
+11100000
+status  pakietu:odrzucony
+
+
+dane:
+0001
+wektor KD= d*G:
+11010010
+wektor S=KD*H:
+110
+wektor KD:
+11110010
+wektor KD_prime poprawiony:
+11010010
+status  pakietu:zachowany
+
+
+dane:
+0110
+wektor KD= d*G:
+11001100
+wektor S=KD*H:
+011
+wektor KD:
+11100100
+wektor KD_prime poprawiony:
+11100000
+status  pakietu:odrzucony
+
+
+dane:
+0010
+wektor KD= d*G:
+01010101
+wektor S=KD*H:
+110
+wektor KD:
+01110101
+wektor KD_prime poprawiony:
+01010101
+status  pakietu:zachowany
+
+
+11100000110100101110000001010101
+SECDED
+kod wjesciowy do dekodowania:
+11100000110100101110000001010101
+dekodowane dane:
+1000
+dekodowane dane:
+0001
+dekodowane dane:
+1000
+dekodowane dane:
+0010
