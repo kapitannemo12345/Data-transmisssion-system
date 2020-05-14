@@ -1,6 +1,5 @@
 bazowy strumien binarny: 0110000101100010
 
-KD[2] = 1; //test wykrywania błędu zmiana na stałe bitu 3 na 1
 
 
 kod wjesciowy:
@@ -62,11 +61,6 @@ dekodowane dane:
 dekodowane dane:
 0010
 -----------------SECDED-----------------
-KD[2] = 1; //test wykrywania błędu
-KD[4] = 0;//zmiana na stałe bitów 3 i 5 na te wartości
-
-
-
 SECDED
 kod wjesciowy:
 0110000101100010
@@ -79,7 +73,7 @@ wektor S=KD*H:
 wektor KD:
 11100100
 wektor KD_prime poprawiony:
-11100000
+
 status  pakietu:odrzucony
 
 
@@ -105,7 +99,7 @@ wektor S=KD*H:
 wektor KD:
 11100100
 wektor KD_prime poprawiony:
-11100000
+
 status  pakietu:odrzucony
 
 
