@@ -1,5 +1,6 @@
 bazowy strumien binarny: 0110000101100010
 
+KD[2] = 1; //test wykrywania błędu zmiana na stałe bitu 3 na 1
 
 
 kod wjesciowy:
@@ -62,7 +63,7 @@ dekodowane dane:
 0010
 -----------------SECDED-----------------
 KD[2] = 1; //test wykrywania błędu
-KD[4] = 0;//zmiana na stałe bitów 1 i 4 na te wartości
+KD[4] = 0;//zmiana na stałe bitów 3 i 5 na te wartości
 
 
 
