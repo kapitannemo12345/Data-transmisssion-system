@@ -2,14 +2,14 @@
 
 #include "pch.h"
 #include <iostream>
-
+#include <sstream>
 #include <math.h>
 #include <vector>
 #include <fstream>
 #include <string>
 #include <cstdlib>
 #include <iomanip>
-
+#include <bitset>
 using namespace std;
 
 
@@ -23,7 +23,7 @@ float C = 5;
 
 float Tb = 0.1;
 float N = 2;
-float fs = 1000;//TB*10 =fs !!!
+float fs = 10000;//TB*10 =fs !!!
 
 typedef unsigned char BYTE;
 
@@ -76,14 +76,14 @@ void negate(int *X, int position)
 
 void Hamming(vector<int> &X, vector<int> &Y)
 {
-	cout << "kod wjesciowy:" << "\n";
+	//cout << "kod wjesciowy:" << "\n";
 
 	for (int k = 0; k < X.size(); k++)//fs/4 czy inna???
 	{
 		cout << X[k];
 
 	}
-	cout << "\n";
+	//cout << "\n";
 
 	int d[4];
 	int j = 0;
@@ -96,15 +96,15 @@ void Hamming(vector<int> &X, vector<int> &Y)
 			d[i] = X[j];
 		}
 
-		cout << "dane:" << "\n";
+		//cout << "dane:" << "\n";
 
 
 		for (int i = 0; i < 4; i++)
 		{
-			cout << d[i];
+			//cout << d[i];
 		}
 
-		cout << "\n";
+		//cout << "\n";
 		//cout << "macierz G:" << "\n";
 
 		const int GM[7][4] = { {1,1,0,1},{1,0,1,1},{1,0,0,0},{0,1,1,1},{0,1,0,0},{0,0,1,0},{0,0,0,1} };
@@ -135,13 +135,13 @@ void Hamming(vector<int> &X, vector<int> &Y)
 		}
 
 		//cout << "\n";
-		cout << "wektor KD= d*G:" << "\n";
+		//cout << "wektor KD= d*G:" << "\n";
 
 		for (int i = 0; i < 7; i++)
 		{
-			cout << KD[i];
+			//cout << KD[i];
 		}
-		cout << "\n";
+		//cout << "\n";
 
 
 		//cout << "macierz H:" << "\n";
@@ -189,11 +189,11 @@ void Hamming(vector<int> &X, vector<int> &Y)
 			sum = 0;
 		}
 
-		cout << "wektor S=KD*H: " << "\n";
+		//cout << "wektor S=KD*H: " << "\n";
 
 		for (int i = 0; i < 3; i++)
 		{
-			cout << S[i];
+			//cout << S[i];
 		}
 
 		int bit_error = 1 * S[0] + 2 * S[1] + 4 * S[2];
@@ -212,24 +212,24 @@ void Hamming(vector<int> &X, vector<int> &Y)
 			*/
 		}
 
-		cout << "\n";
-		cout << "wektor KD:" << "\n";
+		//cout << "\n";
+		//cout << "wektor KD:" << "\n";
 
 		for (int i = 0; i < 7; i++)
 		{
 			cout << KD[i];
 		}
 
-		cout << "\n";
-		cout << "wektor KD_prime poprawiony:" << "\n";
+		//cout << "\n";
+		//cout << "wektor KD_prime poprawiony:" << "\n";
 
 		for (int i = 0; i < 7; i++)
 		{
-			cout << KD_p[i];
+			//cout << KD_p[i];
 			Y.push_back(KD_p[i]);
 		}
-		cout << "\n";
-		cout << "\n";
+		//cout << "\n";
+		//cout << "\n";
 
 	}
 }
@@ -237,20 +237,22 @@ void Hamming(vector<int> &X, vector<int> &Y)
 void Hamming_decode(vector<int> &X, vector<int> &Y)
 {
 	const int R[4][7] = { {0,0,1,0,0,0,0},{0,0,0,0,1,0,0},{0,0,0,0,0,1,0},{0,0,0,0,0,0,1} };
-	cout << "HAMMING" << "\n";
-	cout << "kod wjesciowy do dekodowania:" << "\n";
+	//cout << "HAMMING" << "\n";
+	//cout << "kod wjesciowy do dekodowania:" << "\n";
 
 	for (int k = 0; k < X.size(); k++)//fs/4 czy inna???
 	{
-		cout << X[k];
+		//cout << X[k];
 
 	}
-	cout << "\n";
+	//cout << "\n";
 
 	int d[7];
 	int j = 0;
 
-	for (int k = 0; k < 4; k++)
+	int limit = 22;
+
+	for (int k = 0; k <limit ; k++)
 	{
 
 		for (int i = 0; i < 7; i++, j++)
@@ -272,14 +274,14 @@ void Hamming_decode(vector<int> &X, vector<int> &Y)
 			sum = 0;
 		}
 
-		cout << "dekodowane dane:" << "\n";
+		//cout << "dekodowane dane:" << "\n";
 
 		for (int i = 0; i < 4; i++)
 		{
-			cout << DEC[i];
+			//cout << DEC[i];
 			Y.push_back(DEC[i]);
 		}
-		cout << "\n";
+		//cout << "\n";
 
 
 	}
@@ -533,7 +535,7 @@ void information_signal(vector<float> &OY, vector<int> &s, int ograniczenie)
 	float czas_trwania = Tb * fs;//czas trwanie jednego bity to fs *tb
 
 	
-	czas_trwania = 100;
+	czas_trwania = 1000;
 
 	
 	for (string::size_type i = 0; i < ograniczenie; i++) {//10 bo do 10 bitow ograniczyc
@@ -716,8 +718,6 @@ void X_TF(vector<float> OX, vector<float> OY, vector<float> &OY_XA1, vector<floa
 	}
 }
 
-//SEKCJAkoncowa
-
 void treshold_mt(vector<float> INT1, vector<float> &MT, float h)
 {
 	int i = 0;
@@ -754,11 +754,11 @@ void integration(vector<float> OX, vector<float> &INT1, int bit_amount)
 	float integration;
 	float n;
 	int prob_amount = OX.size();//ilsoc probek
-	int period = 100;//przedzial ilosc probek/ilosc bitow
+	int period = 1000;//przedzial ilosc probek/ilosc bitow
 	// przedzialy
 	xp = 0;
 	xk = period;
-	n = 100;//n BŁĄDD n =ilosc probek na tb czyli 100
+	n = 1000;//n BŁĄDD n =ilosc probek na tb czyli 100
 	h = (xk - xp) / n;//h mozna wznazyc raz?
 	//cout << "krok: h=" << h << endl;
 	//cout << " h=" << INt.size() << endl;
@@ -789,7 +789,6 @@ void integration(vector<float> OX, vector<float> &INT1, int bit_amount)
 		n = n + period;
 
 		integration = 0;
-
 	}
 
 }
@@ -800,7 +799,7 @@ void data_file2(vector<float> OX, string name)
 	myfile.open(name);
 	int i = 0;
 
-	cout << "size ox:" << OX.size();
+	//cout << "size ox:" << OX.size();
 
 	for (float x : OX)
 	{
@@ -818,7 +817,7 @@ void data_file3(vector<int> OX, string name)
 	myfile.open(name);
 	int i = 0;
 
-	cout << "size ox:" << OX.size();
+	//cout << "size ox:" << OX.size();
 
 	for (float x : OX)
 	{
@@ -829,6 +828,77 @@ void data_file3(vector<int> OX, string name)
 	myfile.close();
 
 }
+
+//SEKCJA4: dekodowanie sygnalu
+
+void decode_TTL(vector<float> &TTL, vector<int> &s, int ograniczenie)//154 bity
+{
+
+	float y;
+	int j = 0;
+	float check = fs * Tb;
+
+	int change = 0;
+
+	for (int i = 0; i < ograniczenie; i++)
+	{
+		for (j; j < check; j++)
+		{
+			if (TTL[j] == 1)
+			{
+				change = 1;
+
+			}
+
+		}
+
+		if (change == 1)
+		{
+			change = 0;
+			s.push_back(1);
+
+		}
+		else
+		{
+			s.push_back(0);
+		}
+
+		check = check + 1000;//1000 probek w ciagu 1tb
+	}
+
+}
+
+void SB2S(vector<int> &X, string &s)
+{
+	string var="";
+
+	for (int i = 0; i < X.size(); i++)
+	{
+		if (X[i] == 0)
+		{
+			var += "0";
+		}
+		else
+		{
+			var += "1";
+		}
+	}
+
+	//cout << var;
+
+	string text = "";
+	stringstream sstream(var);
+
+	while (sstream.good())
+	{
+		std::bitset<8>bits;
+		sstream >> bits;
+		s += char(bits.to_ulong());
+	}
+}
+
+
+//SEKCJA KONCOWA
 
 void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 {
@@ -842,17 +912,17 @@ void create_OX(float t_start, float t_end, float delta_t, vector<float> &v)
 	//v.pop_back();
 
 
-	cout << "test  ox:" << v.size() << "\n";
+	//cout << "test  ox:" << v.size() << "\n";
 }
-
 
 int main()
 {
+	cout << "bazowy strumien binarny: " << "\n";
 	string i = "ALA MA KOTA";//11*8=88 literek do hamminga petla wykonuje sie 88/4=22
 	string s;
 	s = s;
 	s = Binary_stream(i);
-	cout << "bazowy strumien binarny: " << "\n";
+	cout << "hamming strumien binarny: " << "\n";
 
 	//cout << s[14] << "\n";
 
@@ -872,25 +942,22 @@ int main()
 	{
 		cout << dane[k];
 	}
-			
-	//cout << "\n";
+				
 	//cout << "\n";
 	
-
 	vector<int> hamming;
 	//vector<int> Z;
 
 	Hamming(dane,hamming);
 
-	for (int k=0; k < hamming.size(); k++)
-	{
-		cout << hamming[k];
-	}
-	cout << "hamming przerobiony:" << "\n";
-	cout << "y:" << hamming.size()<< "\n";
+	//for (int k=0; k < hamming.size(); k++)
+	//{
+		//cout << hamming[k];
+	//}
+	//cout << "hamming przerobiony:" << "\n";
+	//cout << "y:" << hamming.size()<< "\n";
 
 	//Hamming(X, Y);
-
 
 	//for (int k = 0; k < Y.size(); k++)
 	//{
@@ -936,13 +1003,26 @@ int main()
 
 	vector<float> int3;
 	vector<float> int4;
+	vector<float> int_sum;
 	vector<float> OY_F1_A;
 	vector<float> OY_F1_B;
-
 	X_TF(x1,fk1 ,OY_F1_A, OY_F1_B);
 	integration(OY_F1_A, int3, 154);// czestotliwosc / czas trwania bitu
 	integration(OY_F1_B, int4, 154);// czestotliwosc / czas trwania bitu
-
+	float y = 0;
+	int j = 0;
+	for (float x : int3)
+	{
+		y = int4[j] - int3[j];//p1-p0?
+		//cout << int3[j] << int3[j] << "\n";
+		int_sum.push_back(y);
+		y = 0;
+		j++;
+	}
+	data_file2(int_sum, "intF.txt");
+	vector<float> MTF;
+	treshold_mt(int_sum, MTF, 0.008);
+	data_file2(MTF, "MTF.txt");
 	
 	vector<float> int2;
 	vector<float> PK_XA;
@@ -950,12 +1030,96 @@ int main()
 	integration(PK_XA, int2, 154);// czestotliwosc / czas trwania bitu
 	data_file2(int2, "intP.txt");
 	vector<float> MTP;
-	treshold_mt(int2, MTP, 0);
+	treshold_mt(int2, MTP, 0.005);
 	data_file2(MTP, "MTP.txt");
 
+	vector<int> d_ASK;
+	vector<int> d_FSK;
+	vector<int> d_PSK;
+
+	decode_TTL(MTA,d_ASK,154);
+
+	cout  << "\n";
+
+	cout << "kod hamminga dla ASK po demodulacji:" << "\n";
+	for (int i = 0; i < d_ASK.size(); i++)
+	{
+		cout <<d_ASK[i];
+	}
+	cout << "\n";
+	decode_TTL(MTF, d_FSK, 154);
+	decode_TTL(MTP, d_PSK, 154);
+	cout << "kod hamminga dla FSK po demodulacji:" << "\n";
+	for (int i = 0; i < d_FSK.size(); i++)
+	{
+		cout << d_FSK[i];
+	}
+	cout << "\n";
+
+	cout << "kod hamminga dla PSK po demodulacji:" << "\n";
+	for (int i = 0; i < d_PSK.size(); i++)
+	{
+		cout << d_PSK[i];
+	}
+	cout << "\n";
+	vector<int> d_HA;
+	vector<int> d_HF;
+	vector<int> d_HP;
+
+
+	
+
+
+	Hamming_decode(d_ASK,d_HA);
+	cout << "-------------------------------------" << "\n";
+	Hamming_decode(d_FSK, d_HF);
+	cout << "-------------------------------------"<<"\n";
+	Hamming_decode(d_PSK, d_HP);
+	cout << "-------------------------------------" << "\n";
 
 
 
+	cout << "kod po dekodowaniu kanalowym dla ASK:" << "\n";
+	for (int i = 0; i < d_HA.size(); i++)
+	{
+		cout << d_HA[i];
+	}
+	cout << "\n";
+	cout << "kod po dekodowaniu kanalowym dla FSK:" << "\n";
+	for (int i = 0; i < d_HF.size(); i++)
+	{
+		cout << d_HF[i];
+	}
+	cout << "\n";
+	cout << "kod po dekodowaniu kanalowym dla PSK:" << "\n";
+	for (int i = 0; i < d_HP.size(); i++)
+	{
+		cout << d_HP[i];
+	}
+
+
+
+	string text1;
+	string text2;
+	string text3;
+
+	
+	SB2S(d_HA,text1);
+	cout << "\n";
+	
+	SB2S(d_HF, text2);
+	cout << "\n";
+	
+	SB2S(d_HP, text3);
+	cout << "\n";
+	cout << "napis po dekodowawniu strumienia binarnego dla ASK:" << "\n";
+	cout << text1 << "\n";
+	cout << "\n";
+	cout << "napis po dekodowawniu strumienia binarnego dla PSK:" << "\n";
+	cout << text3 << "\n";
+	cout << "\n";
+	cout << "napis po dekodowawniu strumienia binarnego dla FSK:" << "\n";
+	cout << text2 << "\n";
 }
 
 
