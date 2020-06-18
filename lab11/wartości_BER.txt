@@ -1,0 +1,9 @@
+
+alfa dla ASK:
+//0.78-(2 bledy) male ; 0.74 sporadyczne (5 bledow); 0.72-(12 bledy) czeste
+
+alfa dla FSK:
+//0.16-(1 blad) male; 0.13 sporadyczne (5 bledow);0.10-(10 bledy) czeste
+
+alfa dla PSK:
+//0.085-(2 blady) male; sporadyczne 0.08-(6 bledow) ;0.05-(8 bledow) czeste
